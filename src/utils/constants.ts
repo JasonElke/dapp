@@ -1,5 +1,0 @@
-const LENGTH_AMOUNT = 30;
-
-const DECIMAL_PART = 4;
-
-export { LENGTH_AMOUNT, DECIMAL_PART };
