@@ -1,0 +1,182 @@
+.pending-proposals-page {
+  color: #FFFFFF;
+  min-height: 100%;
+  padding: 20px;
+
+  .body-pending-proposals {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    min-height: 500px;
+    margin: 20px auto;
+
+    .bg-pending-proposals {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .wrapper-pending {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 10px;
+      color: #354B49;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      justify-content: space-between;
+      width: 100%;
+
+      .icon-header-pending {
+        width: 210px;
+        object-fit: cover;
+        margin: 0 auto;
+      }
+
+      .footer-pending {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .icon-footer-pending {
+          margin-top: 10px;
+          width: 240px;
+          object-fit: cover;
+        }
+      }
+
+      .content-stake {
+        padding: 10px;
+        height: 100%;
+      }
+
+      .title {
+        text-transform: uppercase;
+        margin: 20px;
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      .no-proposals-found {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .proposal-pending-item {
+    text-align: initial;
+    border-top: 1px solid rgba(136, 129, 113, 0.5);;
+    padding: 3px 0;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    .project-name {
+      color: #354B49;
+
+      span {
+        &:first-child {
+          text-decoration: underline;
+        }
+
+        &:last-child {
+          margin-left: 8px;
+          font-weight: 500;
+        }
+      }
+
+      &:hover {
+        span {
+          &:last-child {
+            margin-left: 8px;
+            font-weight: 500;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .box-top {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 6px;
+
+      .box-percentage {
+        width: 130px;
+        margin-right: 20px;
+        border: 1px solid #888171;
+        border-radius: 4px;
+        overflow: hidden;
+
+        div {
+          display: flex;
+          justify-content: space-between;
+          padding: 2px 4px;
+
+          &:first-child {
+            background: rgb(239, 205, 100, 0.4);
+          }
+
+          span:last-child {
+            font-weight: 500;
+          }
+        }
+      }
+
+      .box-voted {
+        div {
+          display: flex;
+          padding: 2px 4px;
+
+          span {
+            &:last-child {
+              font-weight: 500;
+              margin-left: 8px;
+            }
+
+            .ant-statistic {
+              padding: 0;
+
+              .ant-statistic-content {
+                font-size: 14px;
+                padding: 0;
+                color: #354B49;
+
+                .ant-statistic-content-value {
+                  margin: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .box-bottom {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      align-items: flex-end;
+
+      .bottom-item {
+        display: flex;
+
+        span {
+          &:last-child {
+            margin-left: 8px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}
