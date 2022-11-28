@@ -1,0 +1,52 @@
+.ant-list-item {
+  padding: 12px 12px !important;
+}
+
+.ant-table-cell .ant-btn-link {
+  padding: 0 4px !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.ant-input {
+  border-radius: 5px;
+}
+
+.ant-pagination-item-active {
+  background-color: #FF2F48;
+
+  a {
+    color: white;
+  }
+
+  &:hover {
+    a {
+      color: white
+    }
+  }
+}
+
+.ant-form-item-label {
+  label {
+    &::after {
+      content: none;
+    }
+
+    &.ant-form-item-required {
+      &::before {
+        content: none !important;
+      }
+      &:after {
+        // content: "(*)";
+        content: "*";
+        color: red;
+      }
+    }
+  }
+}
+
+.ant-table-thead > tr > th {
+  background-color: white;
+}
