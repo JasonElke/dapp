@@ -1,0 +1,25 @@
+DeployDev:
+  stage: deploy
+  variables:
+    NODE_ENV: "dev"
+  script:
+    - make assume
+    - make push
+    - make source && make deploy
+  tags:
+    - sti-runner
+  only:
+    - develop
+
+DeployProd:
+  stage: deploy
+  variables:
+    NODE_ENV: "prod"
+  script:
+    - make assume
+    - make push
+    - make source && make deploy
+  tags:
+    - sti-runner
+  only:
+    - main
