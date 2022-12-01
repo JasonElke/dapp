@@ -1,4 +1,4 @@
-import dRealmTokenContract from '../contracts/dcult.sol/Dcult.json';
+import dRealmTokenContract from '../contracts/drealm.sol/Drealm.json';
 import { ethers } from 'ethers';
 import { getContract } from '@/utils/getContract';
 
@@ -119,18 +119,11 @@ export const dCultBalance = async (address: string, provider: any) => {
       provider,
     );
 
-    console.log(cultDaoContract);
-
-    console.log(address);
-
     const cultBalance = await cultDaoContract.balanceOf(address);
-
-    console.log('balance', cultBalance);
 
     return ethers.utils.formatEther(cultBalance);
   } catch (error) {
     console.log(error);
-
     return '';
   }
 };
@@ -143,12 +136,11 @@ export const pendingCult = async (address: string, provider: any) => {
 
     const { dRealmContract } = await getContract(provider);
 
-    const cultStaked = await dRealmContract.pendingCULT(0, address);
+    const cultStaked = await dRealmContract.pendingREALM(0, address);
 
     return Number(cultStaked?.toString() / 1e18).toFixed(3);
   } catch (error) {
     console.log(error);
-
     return [];
   }
 };
@@ -205,7 +197,6 @@ export const totalVotes = async (address: string, provider: any) => {
     const votes = await cultDaoContract.getVotes(address);
 
     console.log(votes);
-
     return votes / Math.pow(10, 18);
   } catch (error) {
     return 0.0;
