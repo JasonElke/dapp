@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "ITreasury",
-  "sourceName": "contracts/cult.sol",
+  "sourceName": "contracts/realm.sol",
   "abi": [
     {
       "inputs": [],

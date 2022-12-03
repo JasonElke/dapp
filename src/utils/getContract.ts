@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import RealmTokenContract from '../contracts/cult.sol/Cult.json';
-import dRealmTokenContract from '../contracts/dcult.sol/Dcult.json';
+import RealmTokenContract from '../contracts/realm.sol/realm.json';
+import dRealmTokenContract from '../contracts/drealm.sol/Drealm.json';
 import governanceContract from '../contracts/governance.sol/GovernorBravoDelegate.json';
 
 const CONFIG = import.meta.env;

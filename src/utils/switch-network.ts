@@ -17,8 +17,8 @@ const addChainRequest = async (provider: any) => {
       rpcUrls: [import.meta.env.VITE_NETWORK_RPC_URI],
       blockExplorerUrls: [import.meta.env.VITE_NETWORK_BLOCK_EXPLORER],
       nativeCurrency: {
-        name: 'BNB',
-        symbol: 'BNB',
+        name: 'ETH',
+        symbol: 'ETH',
         decimals: 18,
       },
     },

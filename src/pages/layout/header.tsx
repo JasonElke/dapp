@@ -48,28 +48,24 @@ const HeaderComponent: FC<HeaderProps> = props => {
 
     for (let i = 0; i < MAX_GUARDIANS; i++) {
       const result = await contracts.dRealmContract.highestStakerInPool(0, i);
-
       if (result) {
         const amount = parseBalance(result.deposited?.toString());
-
         arr.push({
           amount,
           address: result.addr,
         });
       }
     }
-
     const item = arr.find(e => e.address === address);
-
     if (item) setTitleUser(TITLE_USER.GUARDIAN);
     else setTitleUser(TITLE_USER.VOTER);
-
     dispatch(setListTopStake(arr.sort((a, b) => +b.amount - +a.amount)));
   };
 
   useEffect(() => {
     if (contracts) loadData();
-  }, [contracts, isReloadData]);
+
+    }, [contracts, isReloadData, connected]);
 
   const columns = [
     {

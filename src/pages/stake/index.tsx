@@ -75,10 +75,9 @@ const StakePage: FC = () => {
   };
 
   const getTotalREALM = async () => {
-    let totalREALMStaked = await contracts.dRealmContract.totalCULTStaked();
+    let totalREALMStaked = await contracts.dRealmContract.totalREALMStaked();
 
     totalREALMStaked = parseBalance(totalREALMStaked);
-
     setTotalREALM(totalREALMStaked);
   };
 
@@ -143,12 +142,7 @@ const StakePage: FC = () => {
     try {
       const transaction = await contracts.realmContract.approve(
         CONFIG.VITE_dREALM_TOKEN,
-        ethers.utils.parseEther(
-          Number(1 * 1e50)
-            .toLocaleString()
-            .split(',')
-            .join(''),
-        ),
+        ethers.utils.parseEther(amountApprove),
         {
           from: address,
         },
@@ -175,12 +169,7 @@ const StakePage: FC = () => {
     setIsLoadingApprove(true);
 
     try {
-      const amount = Number(+amountApprove * 1e18)
-        .toLocaleString()
-        .split(',')
-        .join('');
-
-      console.log(amount);
+      const amount = ethers.utils.parseEther(amountApprove)
 
       const transaction = await stake(amount, provider);
 
@@ -319,7 +308,7 @@ const StakePage: FC = () => {
                 </Form.Item>
 
                 <Form.Item className="item-btn">
-                  {!realmAllow ? (
+                  {!realmAllow || Number(amountApprove) > realmAllow ? (
                     <MyButton className="btn-normal" loading={isLoadingApprove} onClick={handleApprove}>
                       Approve
                     </MyButton>
