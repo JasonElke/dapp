@@ -28,7 +28,7 @@ const LayoutPage: FC = () => {
 
       <HeaderComponent collapsed="true" className="layout-page__header" />
 
-      <Content className="layout-page-main__content">
+      <Content className="">
         <Outlet />
       </Content>
 
