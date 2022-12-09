@@ -54,7 +54,7 @@ export const stake = async (amount: any, provider: any) => {
     const { dRealmContract } = await getContract(provider);
 
     const cultStaked = await dRealmContract.deposit(0, amount);
-
+    
     return cultStaked;
   } catch (error) {
     console.log(error);
