@@ -1,12 +1,13 @@
 .submit-proposals-page {
   color: #FFFFFF;
   min-height: 100%;
-  padding: 20px;
 
   .form-submit {
     position: relative;
     width: 500px;
+    height: 500px;
     margin: 20px auto;
+    overflow: auto;
 
     .bg-submit-proposals {
       position: absolute;
@@ -27,6 +28,8 @@
       flex-direction: column;
       height: 100%;
       justify-content: space-between;
+      overflow: scroll;
+      max-height: 505px;
 
       .icon-header-form {
         width: 210px;

@@ -4,7 +4,7 @@ import { Form, Input, Slider, Select, Checkbox } from 'antd';
 import MyButton from '@/components/basic/button';
 import BaseContainer from '@/components/basic/container';
 
-import bgSubmitProposals from '@/assets/bg-submit-proposals.png';
+import bgSubmitProposals from '@/assets/bg-pending-proposals.png';
 import iconHeaderForm from '@/assets/header-form.png';
 import iconFooterForm from '@/assets/footer-form.png';
 
