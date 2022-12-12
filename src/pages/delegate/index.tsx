@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { toast } from 'react-toastify';
 import BaseContainer from '@/components/basic/container';
@@ -16,29 +16,36 @@ import './index.less';
 const DelegatePage: FC = () => {
   const { address, provider } = useWeb3Context();
   const [form] = Form.useForm();
+  const [isLoadingApprove, setIsLoadingApprove] = useState(false);
 
   const handleDelegate = async ({ toAddress }: { toAddress: string }) => {
     const dCbalance = await dCultBalance(address, provider);
 
     if (dCbalance) {
       const checkHighestStaker = await highestStaker(address, provider);
-
-      if (!checkHighestStaker) {
+      const checkDelegator = await highestStaker(toAddress, provider);
+      setIsLoadingApprove(true);
+      if (!checkHighestStaker && !checkDelegator) {
         const res = await delegate(toAddress, provider);
-
         if (res?.code === 4001) {
           toast.warn('Transaction Rejected');
+          setIsLoadingApprove(false);
         } else if (res?.code === 4002) {
-          toast.warn('Invalid Address');
+          setIsLoadingApprove(false);
+          toast.error('Invalid Address');
         } else {
-          toast.warn('Transaction Confirmed');
+          await res.wait();
+          setIsLoadingApprove(false);
+          toast.success('Transaction Confirmed');
         }
 
         return '';
       } else {
-        toast.warn('Guardians cannot Delegate');
+        setIsLoadingApprove(false);
+        toast.error('Guardians cannot Delegate');
       }
     } else {
+      setIsLoadingApprove(false);
       toast.warn("You don't have dREALM token to delegate");
     }
   };
@@ -68,7 +75,7 @@ const DelegatePage: FC = () => {
               </Form.Item>
 
               <Form.Item className="item-btn">
-                <MyButton className="btn-normal" onClick={form.submit}>
+                <MyButton className="btn-normal" loading={isLoadingApprove} onClick={form.submit}>
                   Delegate
                 </MyButton>
               </Form.Item>
