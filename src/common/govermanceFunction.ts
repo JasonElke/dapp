@@ -80,7 +80,7 @@ export const proposalDetail = async (provider: any, address = '') => {
       const voteCount = address ? await governanceContract.getReceipt(i, address) : 0;
       const state = await governanceContract.state(i);
       const stateName = stateOptions[state];
-
+      
       description = desc(v, i);
 
       data.push({
