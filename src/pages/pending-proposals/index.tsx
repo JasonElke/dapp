@@ -13,22 +13,23 @@ import iconHeaderForm from '@/assets/header-form.png';
 import iconFooterForm from '@/assets/footer-form.png';
 
 import './index.less';
+import { getContract } from '@/utils/getContract';
 
 const PendingProposalsPage: FC = () => {
   const { connected, provider, address } = useWeb3Context();
   const [listProposal, setListProposal] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+
   useEffect(() => {
     setIsLoading(true);
     if (connected) getListPendingProposal();
+  
   }, [connected]);
 
   const getListPendingProposal = async () => {
     try {
       const listProposal = await proposalDetail(provider, address);
-
-      console.log({ listProposal });
 
       const tempPendingData = listProposal?.length
         ? listProposal.filter(

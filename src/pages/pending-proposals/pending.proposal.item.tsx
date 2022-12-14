@@ -9,6 +9,8 @@ import './index.less';
 import { useDispatch } from 'react-redux';
 import { currentProposal } from '@/stores/proposal.store';
 import { Execute, Queue } from '@/common/govermanceFunction';
+import MyButton from '@/components/basic/button';
+import { toast } from 'react-toastify';
 
 interface props {
   details: any;
@@ -22,19 +24,37 @@ const PendingProposalItem = (props: props) => {
   const { details }: any = props;
   const { provider } = useWeb3Context();
   const [endIn, setEndIn] = useState(0);
+  const [isLoading, setIsLoading] = useState(false); 
+
 
   useEffect(() => {
     setEndInOrStatus(details);
   }, [details]);
 
   const makeQueued = async (id: any) => {
-    await Queue(id, provider);
-    props.refreshData();
+    try{
+      setIsLoading(true)
+      let tx = await Queue(id, provider);
+      await tx.wait()
+      setIsLoading(false);
+      toast.success('Transaction confirmed');
+    }catch(e){
+      setIsLoading(false);
+      toast.error('Transaction failed');
+    }
   };
 
   const DoExecute = async (id: any) => {
-    await Execute(id, provider);
-    props.refreshData();
+    try{
+      setIsLoading(true)
+      let tx = await Execute(id, provider);
+      await tx.wait();
+      setIsLoading(false);
+      toast.success('Transaction confirmed');
+    }catch(e){
+      setIsLoading(false);
+      toast.error('Transaction failed');
+    }
   };
 
   const approvePercentage = (data: any) => {
@@ -67,7 +87,7 @@ const PendingProposalItem = (props: props) => {
 
   const setEndInOrStatus = async (data: any) => {
     const currentBlock = await provider.getBlockNumber();
-    const estimatedTime = (parseInt(data?.endBlock) - currentBlock) * 13.5;
+    const estimatedTime = (parseInt(data?.endBlock) - currentBlock) * 12.6;
 
     setEndIn(estimatedTime);
   };
@@ -85,16 +105,13 @@ const PendingProposalItem = (props: props) => {
       );
     } else if (data?.stateName === 'Succeeded') {
       return (
-        <>
+          <>
           {/* Status:{" "} */}
-          <button
-            type="submit"
-            className="border sm:w-24 w-24 sm:h-7 h-6 rounded-lg sm:text-lg text-base font-Nixie bg-buttonBg border-slate-600 font-semibold"
-            onClick={() => makeQueued(data?.id)}
-          >
+          <MyButton className="btn-normal" loading={isLoading} onClick={() => makeQueued(data?.id)}>
             Queue
-          </button>
+          </MyButton>
         </>
+
       );
     } else if (data?.stateName === 'Queued') {
       const time = new Date().getTime();
@@ -104,6 +121,10 @@ const PendingProposalItem = (props: props) => {
           <>
             <span>Status:</span>
             <span>{data?.stateName}</span>
+            <span>Ends in: </span>
+            <span>
+              {+data?.eta?.toString() > 0 ? <Countdown value={(+data?.eta?.toString())* 1000} format="DD:HH:mm:ss" /> : ''}
+            </span>
           </>
         );
       }
@@ -111,13 +132,9 @@ const PendingProposalItem = (props: props) => {
       return (
         <>
           {/* Status:{" "} */}
-          <button
-            type="submit"
-            className="border sm:w-24 w-24 sm:h-7 h-6 rounded-lg sm:text-lg text-base font-Nixie bg-buttonBg border-slate-600 font-semibold"
-            onClick={() => DoExecute(data?.id)}
-          >
+          <MyButton className="btn-normal" loading={isLoading} onClick={() => DoExecute(data?.id)}>
             Execute
-          </button>
+          </MyButton>
         </>
       );
     } else {
