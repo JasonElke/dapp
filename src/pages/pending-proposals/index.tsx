@@ -19,13 +19,14 @@ const PendingProposalsPage: FC = () => {
   const { connected, provider, address } = useWeb3Context();
   const [listProposal, setListProposal] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
     setIsLoading(true);
     if (connected) getListPendingProposal();
   
-  }, [connected]);
+  }, [connected, loading]);
 
   const getListPendingProposal = async () => {
     try {
@@ -49,6 +50,7 @@ const PendingProposalsPage: FC = () => {
     }
   };
 
+
   return (
     <BaseContainer className="pending-proposals-page">
       <div className="body-pending-proposals">
@@ -64,7 +66,7 @@ const PendingProposalsPage: FC = () => {
             ) : listProposal?.length ? (
               <div>
                 {listProposal.map((details: any, index: number) => (
-                  <PendingProposalItem details={details} key={index} />
+                  <PendingProposalItem details={details} key={index} loading={loading} setLoading={(value:any) => setLoading(value)}/>
                 ))}
               </div>
             ) : (
