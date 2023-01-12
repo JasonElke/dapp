@@ -19,6 +19,7 @@ function ProposalDetail() {
   const { proposalData } = useSelector(state => state.proposal);
   const { address, provider } = useWeb3Context();
   const [transactionInProgress, setProgress] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isApprove, setIsApprove] = useState(false);
   const [isReject, setIsReject] = useState(false);
   const navigate = useNavigate();
@@ -34,37 +35,38 @@ function ProposalDetail() {
   const approveProposalOrReject = async (id: number, value: number) => {
     if (value) {
       const checkHighestStaker = await highestStaker(address, provider);
-
+      
       if (!checkHighestStaker) {
         setProgress(true);
+        setIsApprove(true)
         const res = await approveOrRejectProposal(id, value, address, provider);
+        await res.wait();
 
         if (res.code === 4001) {
           toast.warn('Transaction Rejected');
         } else {
-          toast.warn('Transaction Confirmed');
-          navigate('/proposals');
+          toast.success('Transaction Confirmed');
         }
-
         setProgress(false);
         setIsReject(false);
         setIsApprove(false);
-
+        navigate('/proposals');
         return '';
       } else {
         toast.error('Guardians cannot vote');
       }
     } else {
       setProgress(true);
+      setIsReject(true)
       const res = await approveOrRejectProposal(id, value, address, provider);
+      await res.wait();
 
       if (res.code === 4001) {
         toast.warn('Transaction Rejected');
       } else {
-        toast.warn('Transaction Confirmed');
-        navigate('/proposals');
+        toast.success('Transaction Confirmed');
       }
-
+      navigate('/proposals');
       setProgress(false);
       setIsReject(false);
       setIsApprove(false);

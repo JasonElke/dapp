@@ -15,6 +15,8 @@ import { toast } from 'react-toastify';
 interface props {
   details: any;
   refreshData: () => void;
+  loading: any;
+  setLoading: any
 }
 
 const { Countdown } = Statistic;
@@ -24,20 +26,23 @@ const PendingProposalItem = (props: props) => {
   const { details }: any = props;
   const { provider } = useWeb3Context();
   const [endIn, setEndIn] = useState(0);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
     setEndInOrStatus(details);
   }, [details]);
 
+
+
   const makeQueued = async (id: any) => {
     try{
       setIsLoading(true)
       let tx = await Queue(id, provider);
-      await tx.wait()
+      await tx.wait();
       setIsLoading(false);
       toast.success('Transaction confirmed');
+      props.setLoading(!props.loading);
     }catch(e){
       setIsLoading(false);
       toast.error('Transaction failed');
@@ -51,6 +56,7 @@ const PendingProposalItem = (props: props) => {
       await tx.wait();
       setIsLoading(false);
       toast.success('Transaction confirmed');
+      props.setLoading(!props.loading);
     }catch(e){
       setIsLoading(false);
       toast.error('Transaction failed');
@@ -87,7 +93,7 @@ const PendingProposalItem = (props: props) => {
 
   const setEndInOrStatus = async (data: any) => {
     const currentBlock = await provider.getBlockNumber();
-    const estimatedTime = (parseInt(data?.endBlock) - currentBlock) * 12.6;
+    const estimatedTime = (parseInt(data?.endBlock) - currentBlock) * 15;
 
     setEndIn(estimatedTime);
   };
@@ -119,9 +125,11 @@ const PendingProposalItem = (props: props) => {
       if (+data?.eta?.toString() > time / 1000) {
         return (
           <>
-            <span>Status:</span>
-            <span>{data?.stateName}</span>
-            <span>Ends in: </span>
+            <div>
+              <span>Status:</span>
+              <span>{data?.stateName}</span>
+            </div>
+              <span>Ends in: </span>
             <span>
               {+data?.eta?.toString() > 0 ? <Countdown value={(+data?.eta?.toString())* 1000} format="DD:HH:mm:ss" /> : ''}
             </span>
@@ -171,7 +179,7 @@ const PendingProposalItem = (props: props) => {
           <div>
             <span>You Voted:</span>
             <span className="font-semibold">
-              {details?.voteCount?.hasVoted ? (details?.voteCount?.support !== '0' ? 'Approve' : 'Reject') : 'Pending'}
+              {details?.voteCount?.hasVoted ? (details?.voteCount?.support !== 0 ? 'Approve' : 'Reject') : 'Pending'}
             </span>
           </div>
           <div>{status(details)}</div>
